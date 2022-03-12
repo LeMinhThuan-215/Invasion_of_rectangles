@@ -56,22 +56,24 @@ void Game::killEnemies()
     //Kill the enemies when clicked upon them
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        for (int i = 0; i < this->enemies.size(); i++)
-        {        
-            if (this->enemies[i].getGlobalBounds().contains(this->floatMousePosition))
-            {
-                this->enemies.erase(this->enemies.begin() + i);
+        if (this->mouseHold == false)
+        {
+            this->mouseHold = true;
+            for (int i = 0; i < this->enemies.size(); i++)
+            {        
+                if (this->enemies[i].getGlobalBounds().contains(this->floatMousePosition))
+                {
+                    this->enemies.erase(this->enemies.begin() + i);
+                    break;
+                }
             }
         }
     }
-
-    //Kill the enemies when it below and decrease point
-    if (this->enemies.size() > 0 && this->enemies.front().getPosition().y > this->videoMode.height)
+    else
     {
-        this->point -= this->enemies.front().getSize().y / 10;
-        std::cout << this->point << std::endl;
-        this->enemies.erase(this->enemies.begin());
+        this->mouseHold = false;
     }
+
 }
 
 void Game::updateEnemies()

@@ -1,7 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
 
+#define _WIN32_WINNT 0x0500
+#include <windows.h>
+
 #include<iostream>
+#include <cmath>
 #include<vector>
 #include<ctime>
 #include<string>
@@ -23,9 +27,16 @@ class Game
         sf::Vector2f floatMousePosition;
         sf::Color color;
 
+        //Font and text
+        sf::Font font;
+        sf::Text text;
+
         //Game logic
-        int point;
+        int health;
+        sf::Time getTime;
+        sf::Clock clock;
         bool mouseHold;
+        bool gameOver;
 
         //Enemy variables
         float enemySpawnTimer;
@@ -35,8 +46,13 @@ class Game
         int minEnemySize;
 
         //Private functions
+        void gameRestart();
         void initVariable();
         void initWindow();
+        void initFont();
+        void initText();
+        void initTime();
+        void initEnemies();
         
         //Game objects
         sf::RectangleShape enemy;
@@ -51,6 +67,12 @@ class Game
         bool running();
         void getEvents();
         void updateMousePosition();
+        void updateHealth();
+        void updateTime();
+        
+        void updateText();
+        void renderText();
+
         void update();
         void render();
 
