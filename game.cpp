@@ -34,12 +34,15 @@ void Game::initVariable()
     this->getTime = sf::seconds(0.f);
     this->mouseHold = false;
     this->gameOver = false;
+    
+    this->killCount = 0;
 
     this->enemySpawnTimer = 0.f;
-    this->enemySpawnTimerMax = 1000.f;
+    this->enemySpawnTimerMax = 1200.f;
     this->maxEnemies = 10;
     this->maxEnemySize = 100;
     this->minEnemySize = 30;
+    this->enemyVeclocity = 1.5f;
 }
 
 void Game::initWindow()
@@ -47,8 +50,21 @@ void Game::initWindow()
     this->window = nullptr;
     this->videoMode.height = 600;
     this->videoMode.width = 1000;
-    this->window = new sf::RenderWindow(videoMode, "First game", sf::Style::Close | sf::Style::Titlebar);
+    this->window = new sf::RenderWindow(videoMode, "Invasion of Rectangles", sf::Style::Close | sf::Style::Titlebar);
     this->window->setFramerateLimit(144);
+    this->setIcon();
+}
+
+void Game::setIcon()
+{
+    if (!this->icon.loadFromFile("icon.jpg"))
+    {
+        std::cout << "ERROR::GAME::SETICON::Failed to load icon!" << std::endl;
+    }
+    else
+    {
+        this->window->setIcon(this->icon.getSize().x, this->icon.getSize().y, icon.getPixelsPtr());
+    }
 }
 
 void Game::initFont()
@@ -139,17 +155,47 @@ void Game::updateTime()
 
 }
 
+void Game::updateDifficult()
+{
+    if (this->killCount >= 20 && this->enemyVeclocity < 2.5f)
+    {
+        this->enemyVeclocity += 0.001f;
+        this->enemySpawnTimerMax -= 0.2f;
+    }
+    if (this->killCount >= 50 && this->enemyVeclocity < 3.5f)
+    {
+        this->enemyVeclocity += 0.001f;
+        this->enemySpawnTimerMax -= 0.3f;
+
+    }
+    if (this->killCount >= 100 && this->enemyVeclocity < 5.f)
+    {
+        this->enemyVeclocity += 0.002f;
+        this->enemySpawnTimerMax -= 0.4f;
+    } 
+}
+
+
 void Game::updateText()
 {
+    std::stringstream ss;
     int survivalTime = round(this->getTime.asSeconds());
     if (this->gameOver)
     {
-        this->text.setString("Game Over!!!\nSurvival time: " + std::to_string(survivalTime) + "\n\nPress Space to restart ...");
+        ss << "Game Over!!!";
+        ss << "\nSurvival time: " << survivalTime;
+        ss << "\nYou have killed: " << this->killCount << " enemies";
+        ss << "\n\nPress Space to restart ...";
+        this->text.setString(ss.str());
     }
     else
     {
-        this->text.setString("Your health: " + std::to_string(this->health) + "\n" + "Survival time: " + std::to_string(survivalTime));
+
+        ss << "Your health: " << this->health;
+        ss << "\nSurvival time: " << survivalTime;
+        ss << "\nKill: " << this->killCount;
     }
+    this->text.setString(ss.str());
 }
 
 void Game::renderText()
@@ -164,6 +210,8 @@ void Game::update()
     this->updateEnemies();
     this->updateHealth();
     this->updateText();
+    this->updateDifficult();
+
     if (!this->gameOver)
     {
         this->updateTime();

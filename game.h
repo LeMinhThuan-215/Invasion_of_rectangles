@@ -5,6 +5,7 @@
 #include <windows.h>
 
 #include<iostream>
+#include<sstream>
 #include <cmath>
 #include<vector>
 #include<ctime>
@@ -26,6 +27,7 @@ class Game
         sf::Vector2i intMousePosition;
         sf::Vector2f floatMousePosition;
         sf::Color color;
+        sf::Image icon;
 
         //Font and text
         sf::Font font;
@@ -37,6 +39,7 @@ class Game
         sf::Clock clock;
         bool mouseHold;
         bool gameOver;
+        int killCount;
 
         //Enemy variables
         float enemySpawnTimer;
@@ -44,11 +47,13 @@ class Game
         int maxEnemies;
         int maxEnemySize;
         int minEnemySize;
+        float enemyVeclocity;
 
         //Private functions
         void gameRestart();
         void initVariable();
         void initWindow();
+        void setIcon();
         void initFont();
         void initText();
         void initTime();
@@ -69,6 +74,7 @@ class Game
         void updateMousePosition();
         void updateHealth();
         void updateTime();
+        void updateDifficult();
         
         void updateText();
         void renderText();

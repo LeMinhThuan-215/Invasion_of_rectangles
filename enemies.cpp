@@ -2,9 +2,10 @@
 
 void Game::randomEnemyColor()
 {
-    this->color.r = rand() % 250 + 100;
-    this->color.g = rand() % 250 + 100;
-    this->color.b = rand() % 250 + 100;
+    // Random RPG color in range (100, 100, 100) to (249, 249, 249)
+    this->color.r = rand() % 150 + 100;
+    this->color.g = rand() % 150 + 100;
+    this->color.b = rand() % 150 + 100;
 }
 
 void Game::addRandomEnemy()
@@ -47,7 +48,7 @@ void Game::moveEnemies()
 {
     for (auto &e:this->enemies)
     {
-        e.move(0.f, 2.f);
+        e.move(0.f, this->enemyVeclocity);
     }
 }
 
@@ -64,6 +65,7 @@ void Game::killEnemies()
                 if (this->enemies[i].getGlobalBounds().contains(this->floatMousePosition))
                 {
                     this->enemies.erase(this->enemies.begin() + i);
+                    this->killCount += 1;
                     break;
                 }
             }
