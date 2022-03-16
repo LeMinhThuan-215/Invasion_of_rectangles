@@ -57,7 +57,7 @@ void Game::initWindow()
 
 void Game::setIcon()
 {
-    if (!this->icon.loadFromFile("icon.jpg"))
+    if (!this->icon.loadFromFile("assets/icon/icon.jpg"))
     {
         std::cout << "ERROR::GAME::SETICON::Failed to load icon!" << std::endl;
     }
@@ -162,7 +162,7 @@ void Game::updateDifficult()
         this->enemyVeclocity += 0.001f;
         this->enemySpawnTimerMax -= 0.2f;
     }
-    if (this->killCount >= 50 && this->enemyVeclocity < 3.5f)
+    if (this->killCount >= 70 && this->enemyVeclocity < 3.5f)
     {
         this->enemyVeclocity += 0.001f;
         this->enemySpawnTimerMax -= 0.3f;
