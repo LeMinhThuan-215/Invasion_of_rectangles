@@ -54,6 +54,7 @@ void Game::moveEnemies()
 
 void Game::killEnemies()
 {
+    //Test
     //Kill the enemies when clicked upon them
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
