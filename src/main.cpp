@@ -6,6 +6,7 @@ int main()
     HWND hWnd = GetConsoleWindow();
     ShowWindow( hWnd, SW_HIDE );
 
+    //Run game
     Game game;
     while (game.running())
     {   
